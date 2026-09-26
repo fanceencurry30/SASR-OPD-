@@ -1,0 +1,39 @@
+name: Validate source-only release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack staged source archive
+        shell: bash
+        run: |
+          if [[ -f sasr-source.tar.gz ]]; then
+            tar -xzf sasr-source.tar.gz
+            rm sasr-source.tar.gz
+            echo "SASR_BOOTSTRAP=1" >> "$GITHUB_ENV"
+          else
+            echo "SASR_BOOTSTRAP=0" >> "$GITHUB_ENV"
+          fi
+
+      - name: Validate release contents
+        run: python scripts/validate_release.py
+
+      - name: Commit unpacked source tree
+        if: env.SASR_BOOTSTRAP == '1'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "feat: publish SASR reproducibility code"
+          git push
