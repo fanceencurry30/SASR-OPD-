@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+
+# Editors and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local environment
+.env
+
+# Runtime assets: only the committed placeholders are allowed.
+data/**
+!data/.gitkeep
+models/**
+!models/.gitkeep
+checkpoints/**
+!checkpoints/.gitkeep
+outputs/**
+!outputs/.gitkeep
+logs/**
+!logs/.gitkeep
+calibration/**
+!calibration/.gitkeep
+third_party/**
+!third_party/.gitkeep
+
+# Common training/evaluation products outside the standard folders.
+wandb/
+ray_results/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.parquet
+*.arrow
+*.jsonl
+*.csv
+*.log
+
